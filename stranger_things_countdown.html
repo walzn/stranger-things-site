@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stranger Things — Contagem Regressiva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0b0b0f; --bg2:#12090b; --accent:#ef233c; --neon:#7cf2ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Montserrat, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#eaeaea;background:linear-gradient(180deg,var(--bg1),#0f0708);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+
+    .card{width:100%;max-width:980px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.08));border-radius:14px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.6);position:relative;overflow:hidden}
+
+    /* retro title */
+    .title{display:flex;align-items:center;gap:20px}
+    .logo{font-family:'Special Elite', monospace;font-size:46px;color:var(--accent);text-transform:uppercase;letter-spacing:6px;text-shadow:0 2px 0 rgba(0,0,0,0.6),0 12px 30px rgba(239,35,60,0.08)}
+    .subtitle{font-size:14px;opacity:0.8}
+
+    .content{display:flex;gap:30px;align-items:center;justify-content:space-between;margin-top:18px}
+    .countdown{flex:1;min-width:220px}
+    .time-grid{display:flex;gap:12px;flex-wrap:wrap}
+    .block{background:rgba(0,0,0,0.45);padding:18px;border-radius:8px;min-width:100px;text-align:center}
+    .num{font-size:34px;font-weight:800;color:var(--neon);letter-spacing:2px}
+    .label{font-size:12px;opacity:0.85;margin-top:6px}
+
+    .extras{width:360px;min-width:200px}
+    .card-inside{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:10px}
+    .release{font-weight:700;color:var(--accent)}
+
+    /* christmas lights */
+    .lights{margin-top:18px;height:44px;display:flex;align-items:center;gap:8px}
+    .bulb{width:18px;height:28px;border-radius:4px;background:linear-gradient(180deg,#fff, #ddd);box-shadow:0 6px 16px rgba(0,0,0,0.6);transform-origin:center top}
+    .b1{background:linear-gradient(180deg,#ffcc00,#ff8800)}
+    .b2{background:linear-gradient(180deg,#66ff66,#00aa00)}
+    .b3{background:linear-gradient(180deg,#ff6666,#cc0000)}
+    .b4{background:linear-gradient(180deg,#66ccff,#0077aa)}
+
+    /* small effects */
+    .vhs{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.06;background-image:linear-gradient(transparent 20%, rgba(255,255,255,0.02) 20%, transparent 21%);background-size:100% 3px}
+
+    .upsideDownToggle{margin-top:14px;display:flex;align-items:center;gap:10px}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;color:inherit;cursor:pointer}
+
+    footer{font-size:12px;opacity:0.7;margin-top:18px}
+
+    /* responsive */
+    @media (max-width:720px){.content{flex-direction:column}.extras{width:100%}}
+
+    /* small marquee silhouette */
+    .skull{position:absolute;right:-60px;bottom:-20px;opacity:0.06;transform:rotate(-12deg);font-size:220px;pointer-events:none}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="vhs"></div>
+    <div class="title">
+      <div class="logo">Stranger Things</div>
+      <div class="subtitle">Última temporada — Contagem regressiva</div>
+    </div>
+
+    <div class="content">
+      <div class="countdown">
+        <div style="font-size:14px;opacity:0.85">Lançamento do Volume 1</div>
+        <div style="margin-top:10px;font-size:16px" id="releaseText">—</div>
+        <div class="time-grid" style="margin-top:16px">
+          <div class="block">
+            <div class="num" id="days">0</div>
+            <div class="label">Dias</div>
+          </div>
+          <div class="block">
+            <div class="num" id="hours">0</div>
+            <div class="label">Horas</div>
+          </div>
+          <div class="block">
+            <div class="num" id="minutes">0</div>
+            <div class="label">Minutos</div>
+          </div>
+          <div class="block">
+            <div class="num" id="seconds">0</div>
+            <div class="label">Segundos</div>
+          </div>
+        </div>
+
+        <div class="lights" aria-hidden>
+          <div class="bulb b1" style="animation:blink 2s infinite ease-in-out"></div>
+          <div class="bulb b2" style="animation:blink 2.3s infinite ease-in-out"></div>
+          <div class="bulb b3" style="animation:blink 1.9s infinite ease-in-out"></div>
+          <div class="bulb b4" style="animation:blink 2.6s infinite ease-in-out"></div>
+        </div>
+
+        <div class="upsideDownToggle">
+          <button class="btn" id="toggleUpside">Ativar 'Upside Down'</button>
+          <button class="btn" id="playTrailer">Abrir trailer (Netflix)</button>
+        </div>
+      </div>
+
+      <aside class="extras">
+        <div class="card-inside">
+          <div style="font-size:13px;opacity:0.85">Datas principais</div>
+          <div style="margin-top:8px;font-size:15px">Volume 1: <span class="release">26 de novembro de 2025</span></div>
+          <div style="margin-top:6px;font-size:15px">Volume 2: <span class="release">25 de dezembro de 2025</span></div>
+          <div style="margin-top:6px;font-size:15px">Final: <span class="release">31 de dezembro de 2025</span></div>
+
+          <div style="margin-top:12px;font-size:13px;opacity:0.9">Local time: <span id="localTZ">--</span></div>
+
+          <div style="margin-top:12px;font-size:13px;opacity:0.9">Tema: <strong>Upside Down</strong></div>
+
+        </div>
+      </aside>
+    </div>
+
+    <footer>Visual inspirado na série • Elementos estilizados (sem uso de logos oficiais)</footer>
+    <div class="skull">☠</div>
+  </div>
+
+  <script>
+    // Data de lançamento do Volume 1 (horário São Paulo / -03:00) — ajuste se quiser outro fuso
+    const releaseDate = new Date('2025-11-26T22:00:00-03:00');
+
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+    const releaseText = document.getElementById('releaseText');
+    const localTZ = document.getElementById('localTZ');
+
+    function pad(n){return n.toString().padStart(2,'0')}
+
+    function updateCountdown(){
+      const now = new Date();
+      const diff = releaseDate - now;
+      if(diff <= 0){
+        daysEl.textContent='00'; hoursEl.textContent='00'; minutesEl.textContent='00'; secondsEl.textContent='00';
+        releaseText.textContent = 'Volume 1 já lançado! Aproveite.';
+        clearInterval(timer);
+        return;
+      }
+      const s = Math.floor(diff/1000);
+      const days = Math.floor(s/86400);
+      const hours = Math.floor((s%86400)/3600);
+      const mins = Math.floor((s%3600)/60);
+      const secs = s%60;
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minutesEl.textContent = pad(mins);
+      secondsEl.textContent = pad(secs);
+
+      const options = {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'};
+      releaseText.textContent = releaseDate.toLocaleString(undefined, options);
+    }
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+
+    // local tz
+    localTZ.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || '—';
+
+    // Upside Down toggle
+    const card = document.getElementById('card');
+    document.getElementById('toggleUpside').addEventListener('click', ()=>{
+      if(card.style.filter){
+        card.style.filter = '';
+        card.style.transform = '';
+      } else {
+        card.style.filter = 'hue-rotate(180deg) invert(0.9)';
+        card.style.transform = 'scaleY(-1)';
+        setTimeout(()=>{card.style.transform='';},1200);
+      }
+    });
+
+    // Open trailer (user can change link)
+    document.getElementById('playTrailer').addEventListener('click', ()=>{
+      // abertura para Netflix Tudum trailer page
+      window.open('https://www.netflix.com/tudum/articles/stranger-things-season-5-hype-trailer','_blank');
+    });
+
+    // small blinking animation for bulbs
+    const style = document.createElement('style');
+    style.textContent = `@keyframes blink{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(4px) scaleY(0.85)}}`;
+    document.head.appendChild(style);
+
+    // easter: press U to toggle upside down
+    window.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='u') document.getElementById('toggleUpside').click(); });
+  </script>
+</body>
+</html>
